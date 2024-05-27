@@ -1,4 +1,6 @@
 .conda
+reg_models
+outs
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
