@@ -1,14 +1,18 @@
 import os
-import pandas as pd
-import numpy as np
-import morfeus as mf
 import traceback
-from sklearn.model_selection import train_test_split, KFold
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+import morfeus as mf
+import numpy as np
+import pandas as pd
 from rdkit import Chem
 from rdkit.Chem import AllChem, Descriptors
-from solvent_activity.smiles_utils import smiles_to_xyz
+from sklearn.model_selection import KFold, train_test_split
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from tqdm import tqdm
+
+from solvent_activity.bert_utils.smiles_utils import smiles_to_xyz
+
+
 def morfeus_descriptors(string_list):
     all_descriptors = []
     for index, smiles in tqdm(enumerate(string_list)):
@@ -192,7 +196,7 @@ def split_csv(csv_file, output_dir):
 
     # Save the test set
     test_data.to_csv(
-        os.path.join(output_dir, f"test_{os.path.basename(csv_file)}"), index=False
+        os.path.join(output_dir, f"test_database_IAC_ln_clean.csv"), index=False
     )
 
     # Perform 5-fold cross-validation on the training set
@@ -217,7 +221,7 @@ def split_csv(csv_file, output_dir):
         train_fold["y_standard"] = y_train_standard
 
         # Create the output directory for this fold
-        fold_dir = os.path.join(output_dir, f"split_{i+1}")
+        fold_dir = os.path.join(output_dir, f"split_{i}")
         os.makedirs(fold_dir, exist_ok=True)
 
         # Save the train and validation sets for this fold

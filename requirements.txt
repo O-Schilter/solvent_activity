@@ -3,3 +3,8 @@ scikit-learn
 rdkit
 pandas
 pyarrow
+torch
+transformers
+evaluate
+xgboost
+fastparquet

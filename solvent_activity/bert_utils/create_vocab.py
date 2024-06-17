@@ -1,8 +1,8 @@
-from tokenization import BasicSmilesTokenizer
-import pandas as pd
 import numpy as np
+import pandas as pd
 from tqdm import tqdm
 
+from solvent_activity.bert_utils.tokenization import BasicSmilesTokenizer
 
 LS_SPECIAL_TOKENS = [
     "[PAD]",

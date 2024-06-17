@@ -1,6 +1,6 @@
+import numpy as np
 from rdkit import Chem
 from rdkit.Chem import AllChem
-import numpy as np
 
 
 def smiles_to_xyz(smiles):

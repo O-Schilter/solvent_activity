@@ -1,21 +1,19 @@
-import torch
-import pickle
-import pandas as pd
-import numpy as np
-
-import evaluate
-
 import argparse
-from tokenization import SmilesTokenizer, BasicSmilesTokenizer
-from transformers import TrainingArguments, Trainer
 
-from dataset import MlmDataset
-from transformers import BertConfig, BertForMaskedLM, DataCollatorForLanguageModeling
+import pandas as pd
+from transformers import (
+    BertConfig,
+    BertForMaskedLM,
+    DataCollatorForLanguageModeling,
+    Trainer,
+    TrainingArguments,
+)
 
-import os
-# os.environ["WANDB_PROJECT"] = "AtomMapLang" #TODO remove hard coded project name
-
-metric = evaluate.load("accuracy")
+from solvent_activity.bert_utils.dataset import MlmDataset
+from solvent_activity.bert_utils.tokenization import (
+    BasicSmilesTokenizer,
+    SmilesTokenizer,
+)
 
 
 def preprocess_logits_for_metrics(logits, labels):
@@ -39,10 +37,8 @@ def compute_metrics(eval_preds):
 
 
 def main(args):
-    SMILES_VOCAB_FILE = args.vocab_path
-
     tokenizer = SmilesTokenizer(
-        vocab_file=SMILES_VOCAB_FILE,
+        vocab_file=args.vocab_path,
         basic_tokenizer=BasicSmilesTokenizer(),
         remove_mapping=True,
     )
@@ -78,13 +74,14 @@ def main(args):
         # pad_to_multiple_of=8 if pad_to_multiple_of_8 else None
     )
 
-    # TODO change
     logging_steps = 100  # how often to log to wandb
     save_steps = 5000  # nb update steps before 2 checkpoint saves
     eval_steps = 20000  # nb update steps between 2 evaluations
     warmup_steps = 10000  # nb steps of linear warmup from 0 to learning_rate
 
-    run_name = f"{args.mode}_lr_{args.learning_rate}_bs_{args.batch_size}_nep_{str(args.train_epochs)}"
+    run_name = (
+        f"lr_{args.learning_rate}_bs_{args.batch_size}_nep_{str(args.train_epochs)}"
+    )
 
     training_args = TrainingArguments(
         report_to="tensorboard",
@@ -127,7 +124,6 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--base_name", type=str, default="")
     parser.add_argument("--output_path", type=str, default="outs/")
 
     parser.add_argument(
@@ -140,9 +136,6 @@ if __name__ == "__main__":
         help="data directory to read parquet files from",
     )
     parser.add_argument("--rxn_column", type=str, default="solvent_solute_smiles")
-    parser.add_argument(
-        "--mode", default="no_maps", help="options are new_maps, old_maps, no_maps"
-    )
 
     parser.add_argument("--learning_rate", type=float, default=0.0001)
     parser.add_argument("--batch_size", type=int, default=8)
