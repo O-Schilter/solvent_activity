@@ -8,7 +8,7 @@ This repository contains code for processing data, training baseline models, and
 ```
 git clone https://github.com/O-Schilter/solvent_activity.git
 ```
-Create a conda environment and install the required packages:
+2. Create a conda environment and install the required packages:
 ```
 conda create -n solvent-activity python=3.10
 conda activate solvent-activity
@@ -47,9 +47,9 @@ python ./solvent_activity/mlm_bert.py --output_path "outs/" --vocab_path "./data
 ```
 The available arguments are:
 
---output_path: Path to save the trained model (default: "outs/")
---vocab_path: Location of the vocabulary file (default: ".")
---data_path: Directory to read the parquet data files from (default: ".")
+- --output_path: Path to save the trained model (default: "outs/")
+- --vocab_path: Location of the vocabulary file (default: ".")
+- --data_path: Directory to read the parquet data files from (default: ".")
 
 ### Fine-tuning BERT for Regression
 After training the BERT model for MLM, you can fine-tune it for the regression task by running the following script with the appropriate arguments:
@@ -58,10 +58,10 @@ python /solvent_activity/reg_bert.py  --model_path "./outs/" --output_path "./re
 ```
 The available arguments are:
 
---model_path: Path to the pre-trained BERT model (default: "./")
---output_path: Path to save the fine-tuned model (default: "./")
---vocab_path: Path to the vocabulary file (default: "./")
---data_path: Path to the data directory (default: "./")
+- --model_path: Path to the pre-trained BERT model (default: "./")
+- --output_path: Path to save the fine-tuned model (default: "./")
+- --vocab_path: Path to the vocabulary file (default: "./")
+- --data_path: Path to the data directory (default: "./")
 
 ## Evaluation
 To evaluate the trained models on the holdout test set, run the following script:
