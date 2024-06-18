@@ -14,6 +14,10 @@ conda create -n solvent-activity python=3.10
 conda activate solvent-activity
 pip install -r requirements.txt
 ```
+3. install the the package using pip
+```
+pip install -e .
+```
 ## Data Processing
 
 To create the data for training and evaluation, run the following script:

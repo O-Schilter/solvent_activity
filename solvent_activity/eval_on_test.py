@@ -25,14 +25,25 @@ def evaluate_model(y_pred, y_val, scaler):
         y_pred = scaler.inverse_transform(y_pred.reshape(-1, 1)).flatten()
         y_val = scaler.inverse_transform(y_val).flatten()
 
+    #if exponential function fails, write large or small values
+    try:
+        mse_exp = mean_squared_error(np.exp(y_val), np.exp(y_pred))
+        r2_exp = r2_score(np.exp(y_val), np.exp(y_pred))
+        mae_exp = mean_absolute_error(np.exp(y_val), np.exp(y_pred))
+    except:
+        mse_exp = 1e6
+        r2_exp = -1e6
+        mae_exp =  1e6
+        
     return {
         "MSE": mean_squared_error(y_val, y_pred),
         "R2": r2_score(y_val, y_pred),
         "MAE": mean_absolute_error(y_val, y_pred),
-        "MSE_exp": mean_squared_error(np.exp(y_val), np.exp(y_pred)),
-        "R2_exp": r2_score(np.exp(y_val), np.exp(y_pred)),
-        "MAE_exp": mean_absolute_error(np.exp(y_val), np.exp(y_pred)),
+        "MSE_exp": mse_exp,
+        "R2_exp": r2_exp,
+        "MAE_exp": mae_exp,
     }
+
 
 
 def load_model(model_path):
