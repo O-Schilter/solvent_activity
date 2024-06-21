@@ -12,3 +12,5 @@ drfp
 faerun
 mhfp
 ipykernel
+morfeus
+matplotlib
