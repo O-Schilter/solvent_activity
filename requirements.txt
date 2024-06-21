@@ -11,3 +11,4 @@ fastparquet
 drfp
 faerun
 mhfp
+ipykernel
